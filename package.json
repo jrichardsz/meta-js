@@ -1,0 +1,14 @@
+{
+  "name": "meta-js",
+  "version": "1.0.0",
+  "description": "meta-js framework",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha ./test/index.js --exit"
+  },
+  "author": "JRichardsz <jrichardsz.java@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "nodejs-import-helper": "jrichardsz/nodejs-import-helper#master"
+  }
+}
