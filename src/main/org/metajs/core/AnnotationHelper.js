@@ -1,6 +1,5 @@
 const fs = require('fs');
 const pathUtil = require('path');
-// var lineNumber = require('line-number');
 var Logger = include('org/metajs/core/Logger.js')
 
 function AnnotationHelper() {
