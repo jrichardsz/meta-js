@@ -4,11 +4,14 @@
   "description": "meta-js framework",
   "main": "src/main/index.js",
   "scripts": {
-    "test": "mocha ./src/test/index.js --exit"
+    "test": "mocha ./src/test/Index.js --exit"
   },
   "author": "JRichardsz <jrichardsz.java@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "nodejs-import-helper": "jrichardsz/nodejs-import-helper#master"
+    "chai": "4.2.0",
+    "core-js": "3.6.5",
+    "mocha": "8.1.3",
+    "nodejs-require-enhancer": "jrichardsz/nodejs-require-enhancer#master"
   }
 }

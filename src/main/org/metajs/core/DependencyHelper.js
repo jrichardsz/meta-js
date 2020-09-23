@@ -1,4 +1,4 @@
-require('nodejs-import-helper');
+const include = require('nodejs-require-enhancer');
 const fs = require('fs');
 const pathUtil = require('path');
 var AnnotationHelper = include('org/metajs/core/AnnotationHelper.js');
