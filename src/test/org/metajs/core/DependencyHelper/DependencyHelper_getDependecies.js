@@ -1,10 +1,10 @@
-const include = require('nodejs-require-enhancer');
+require('nodejs-require-enhancer');
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;
 var path = require("path");
-var DependencyHelper = include('org/metajs/core/DependencyHelper.js');
-var AnnotationHelper = include('org/metajs/core/AnnotationHelper.js');
+var DependencyHelper = require('org/metajs/core/DependencyHelper.js');
+var AnnotationHelper = require('org/metajs/core/AnnotationHelper.js');
 
 describe('DependencyHelper: getDependecies', function() {
   it('empty action', function() {

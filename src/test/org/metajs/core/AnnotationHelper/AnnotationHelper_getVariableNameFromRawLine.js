@@ -1,7 +1,7 @@
-const include = require('nodejs-require-enhancer');
+require('nodejs-require-enhancer');
 var chai = require('chai');
 var expect = chai.expect;
-var AnnotationHelper = include('org/metajs/core/AnnotationHelper.js');
+var AnnotationHelper = require('org/metajs/core/AnnotationHelper.js');
 
 describe('AnnotationHelper: getVariableNameFromRawLine', function() {
   it('get simple variable name', function() {
