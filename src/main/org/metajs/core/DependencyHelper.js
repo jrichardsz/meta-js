@@ -57,7 +57,7 @@ DependencyHelper.getJsFiles = function(path, files, expectedExtensions, excludes
   fs.readdirSync(path).forEach(function(file) {
     var absolutePath = path + '/' + file;
     if (fs.lstatSync(absolutePath).isDirectory()) {
-      if (absolutePath.includes("node_modules") || absolutePath.includes(".git")) {
+      if (absolutePath.includes(".git")) {
         return;
       }
       DependencyHelper.getJsFiles(absolutePath, files, expectedExtensions, excludes);
