@@ -198,17 +198,17 @@ AnnotationHelper.isEmptyLine = function(line) {
 
 AnnotationHelper.getVariableNameFromRawLine = function(line) {
   var regexMatches = line.match(new RegExp('\\s*this\\.[a-zA-Z][\\w_]+', "g"));
-  return regexMatches[0].replace("this.", "").replace(/ /g, '');
+  return regexMatches[0].replace("this.", "").replace(/\s/g,'');
 };
 
 AnnotationHelper.getFunctionNameFromRawLine = function(line) {
   var regexMatches = line.match(new RegExp('\\s*const\\s*[a-zA-Z][\\w_]+', "g"));
-  return regexMatches[0].replace("const", "").replace(/ /g, '');
+  return regexMatches[0].replace("const", "").replace(/\s/g,'');
 };
 
 AnnotationHelper.getModuleFunctionNameFromRawLine = function(line) {
   var regexMatches = line.match(new RegExp('\\s*this\\.[a-zA-Z][\\w_]+', "g"));
-  return regexMatches[0].replace("this.", "").replace(/ /g, '');
+  return regexMatches[0].replace("this.", "").replace(/\s/g,'');
 };
 
 AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine = function(line) {
