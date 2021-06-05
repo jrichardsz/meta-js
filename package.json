@@ -12,6 +12,6 @@
     "chai": "4.2.0",
     "core-js": "3.6.5",
     "mocha": "8.1.3",
-    "nodejs-require-enhancer": "jrichardsz/nodejs-require-enhancer#master"
+    "nodejs-require-enhancer": "jrichardsz/nodejs-require-enhancer#fix-deep-level-invokation"
   }
 }

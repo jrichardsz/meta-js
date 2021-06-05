@@ -11,7 +11,7 @@ function DependencyHelper() {
 DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExclusions,
                                            headAnnotations, internalAnnotations) {
 
-  Logger.info("dependencyRootPath: "+rootPath);
+  Logger.debug("folder to scan, searching head dependencies: "+rootPath);
 
   var headAnnotationsStringRegex=AnnotationHelper.createRegexFromAnnotations(headAnnotations)
   var internalAnnotationsStringRegex=AnnotationHelper.createRegexFromAnnotations(internalAnnotations)
