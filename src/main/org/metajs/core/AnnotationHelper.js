@@ -1,7 +1,6 @@
-const include = require('nodejs-require-enhancer');
 const fs = require('fs');
 const pathUtil = require('path');
-var Logger = require('org/metajs/core/Logger.js')
+var Logger = require('./Logger.js')
 
 function AnnotationHelper() {
 

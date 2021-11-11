@@ -1,8 +1,7 @@
-const include = require('nodejs-require-enhancer');
 const fs = require('fs');
 const pathUtil = require('path');
-var AnnotationHelper = require('org/metajs/core/AnnotationHelper.js');
-var Logger = require('org/metajs/core/Logger.js')
+var AnnotationHelper = require('./AnnotationHelper.js');
+var Logger = require('./Logger.js')
 
 function DependencyHelper() {
 

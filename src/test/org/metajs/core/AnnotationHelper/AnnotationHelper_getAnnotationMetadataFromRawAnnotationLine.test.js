@@ -1,8 +1,7 @@
-require('nodejs-require-enhancer');
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;
-var AnnotationHelper = require('org/metajs/core/AnnotationHelper.js');
+var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
 
 describe('AnnotationHelper: getAnnotationMetadataFromRawAnnotationLine', function() {
   it('one argument', function() {

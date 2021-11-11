@@ -2,16 +2,16 @@
   "name": "meta-js",
   "version": "1.0.0",
   "description": "meta-js framework",
-  "main": "src/main/index.js",
+  "main": "src/main/Index.js",
   "scripts": {
-    "test": "mocha ./src/test/Index.js --exit"
+    "test1": "mocha '**/*.test.js' --exit",
+    "test": "nyc --reporter=html mocha 'src/test/**/*.test.js' --exit"
   },
   "author": "JRichardsz <jrichardsz.java@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "chai": "4.2.0",
     "core-js": "3.6.5",
-    "mocha": "8.1.3",
-    "nodejs-require-enhancer": "jrichardsz/nodejs-require-enhancer#fix-deep-level-invokation"
+    "mocha": "8.1.3"
   }
 }

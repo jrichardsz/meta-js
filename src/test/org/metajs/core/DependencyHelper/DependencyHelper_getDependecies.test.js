@@ -1,10 +1,9 @@
-require('nodejs-require-enhancer');
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;
 var path = require("path");
-var DependencyHelper = require('org/metajs/core/DependencyHelper.js');
-var AnnotationHelper = require('org/metajs/core/AnnotationHelper.js');
+var DependencyHelper = require('../../../../../main/org/metajs/core/DependencyHelper.js');
+var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
 
 describe('DependencyHelper: getDependecies', function() {
   it('empty action', function() {
@@ -16,7 +15,7 @@ describe('DependencyHelper: getDependecies', function() {
 
     var dependencies = DependencyHelper.getDependecies(src, [".js", ".html"], ["src/index.js", "src/index.html"],
     headAnnotations, internalAnnotations);
-    
+
     assert(dependencies);
     expect(dependencies.length).to.equal(1);
     expect(dependencies[0].meta.name).to.equal("DefaultAction");
