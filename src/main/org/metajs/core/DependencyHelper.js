@@ -33,7 +33,7 @@ DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExc
       var foundAnnotations = AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction(lines, internalAnnotationsStringRegex);
       Logger.debug(foundAnnotations);
       if(foundAnnotations){
-        headAnnotationMetadata.location = file;
+        headAnnotationMetadata.location = file.replace(rootPath, "");
         foundAnnotations.meta = headAnnotationMetadata;
         dependencies.push(foundAnnotations);
       }
@@ -56,7 +56,10 @@ DependencyHelper.getJsFiles = function(path, files, expectedExtensions, excludes
   fs.readdirSync(path).forEach(function(file) {
     var absolutePath = path + '/' + file;
     if (fs.lstatSync(absolutePath).isDirectory()) {
-      if (absolutePath.includes(".git")) {
+      if (absolutePath.endsWith(".git")) {
+        return;
+      }
+      if (absolutePath.endsWith("node_modules")) {
         return;
       }
       DependencyHelper.getJsFiles(absolutePath, files, expectedExtensions, excludes);

@@ -238,7 +238,7 @@ AnnotationHelper.getAnnotationNameFromRawAnnotation = function(rawAnnotation) {
   if(typeof rawAnnotationWithArguments === 'undefined' || rawAnnotationWithArguments == null){
     var rawAnnotationNameMatch = rawAnnotation.match(new RegExp('@[a-zA-Z]+', "g"));
     if(typeof rawAnnotationNameMatch === 'undefined' || rawAnnotationNameMatch == null){
-      throw new Error("expected raw annotation in wrong. Is not possible get its name:"+rawAnnotation);
+      throw new Error("expected raw annotation is wrong. Is not possible get its name:"+rawAnnotation);
     }
     return rawAnnotationNameMatch[0].replace("@","");
   }else{

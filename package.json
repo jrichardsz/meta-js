@@ -4,14 +4,19 @@
   "description": "meta-js framework",
   "main": "src/main/Index.js",
   "scripts": {
-    "test1": "mocha '**/*.test.js' --exit",
-    "test": "nyc --reporter=html mocha 'src/test/**/*.test.js' --exit"
+    "test": "nyc --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit --require mocha-suppress-logs && npm run badges",
+    "badges": "badges4cov --source=nyc_json --nyc_json_file_location=./coverage/coverage-summary.json --output_folder=./coverage"
   },
   "author": "JRichardsz <jrichardsz.java@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "core-js": "3.6.5"
+  },
+  "devDependencies": {
+    "badges4cov": "git+https://github.com/jrichardsz/badges4cov.git",
+    "mocha-suppress-logs": "^0.3.1",
     "chai": "4.2.0",
-    "core-js": "3.6.5",
-    "mocha": "8.1.3"
+    "mocha": "8.1.3",
+    "nyc": "^15.1.0"
   }
 }
