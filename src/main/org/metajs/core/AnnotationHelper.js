@@ -216,7 +216,8 @@ AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine = function(line) {
   var name = AnnotationHelper.getAnnotationNameFromRawAnnotation(line);
   if (typeof rawArguments === 'undefined' || rawArguments == null || rawArguments.length == 0) {
     return {
-      name: name
+      name: name,
+      arguments: {}
     };
   }
 
