@@ -11,6 +11,10 @@ describe('AnnotationHelper: getModuleFunctionNameFromRawLine', function() {
     var variableName = AnnotationHelper.getModuleFunctionNameFromRawLine("this.sayHello   = () => {");
     expect(variableName).to.equal("sayHello");
   });
+  it('get simple async function', function() {
+    var variableName = AnnotationHelper.getModuleFunctionNameFromRawLine("this.sayHello = async () => {");
+    expect(variableName).to.equal("sayHello");
+  });
 
   let output;
   const originalLogFunction = console.log;

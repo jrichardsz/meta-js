@@ -3,6 +3,11 @@ var expect = chai.expect;
 var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
 
 describe('AnnotationHelper: isModuleFunction', function() {
+  it('is a simple arrow function without arguments and without spaces', function() {
+    var isModuleFunction = AnnotationHelper.isModuleFunction("this.displayQuote=()=>{");
+    expect(isModuleFunction).to.equal(true);
+  });
+
   it('is a simple arrow function without arguments', function() {
     var isModuleFunction = AnnotationHelper.isModuleFunction("this.displayQuote = () => {");
     expect(isModuleFunction).to.equal(true);

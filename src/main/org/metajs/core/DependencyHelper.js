@@ -24,8 +24,13 @@ DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExc
 
   for (var key in files) {
     var file = files[key];
-    Logger.debug("file:"+file);
+    Logger.debug("\n\nfile:"+file);
     var contents = fs.readFileSync(file, 'utf8');
+    // Logger.debug(JSON.stringify(fileLines, null, 4));
+    Logger.debug("file content:");
+    Logger.debug("------------");
+    Logger.debug(contents);
+    Logger.debug("------------");
     var headAnnotationMetadata = AnnotationHelper.getHeadAnnotationMetadata(contents, headAnnotationsStringRegex);
     Logger.debug(headAnnotationMetadata);
     if(typeof headAnnotationMetadata !== 'undefined'){

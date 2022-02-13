@@ -3,7 +3,9 @@ function Logger(){
 }
 
 Logger.debug = function(message){
-  if(typeof metaJsLogLevel !== 'undefined' && metaJsLogLevel==="debug"){
+  let logLevel;
+  if(typeof logLevel === 'undefined') logLevel = process.env.META_JS_LOG_LEVEL
+  if(typeof logLevel !== 'undefined' && logLevel==="debug"){
     if(typeof message === 'object'){
       console.log(JSON.stringify(message, null, 4));
     }else{
