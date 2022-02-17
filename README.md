@@ -37,7 +37,7 @@ module.exports = SomeClass;
 ```
 var headAnnotations = ["Config","Route"];
 var internalAnnotations = ["Autowire","Get","Post","Put","Delete", "Configuration"];
-var dependencies = DependencyHelper.getDependecies(srcLocation, [".js"], ["src/main/Index.js"],headAnnotations, internalAnnotations);
+var dependencies = DependencyHelper.getDependecies(sourceCodeBaseLocation, [".js"], ["src/main/Index.js"],headAnnotations, internalAnnotations);
 console.log(JSON.stringify(dependencies, null,4 ));
 ```
 
