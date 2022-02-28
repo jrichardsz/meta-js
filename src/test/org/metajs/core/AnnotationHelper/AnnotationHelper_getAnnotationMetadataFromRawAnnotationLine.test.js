@@ -5,10 +5,28 @@ var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHe
 
 describe('AnnotationHelper: getAnnotationMetadataFromRawAnnotationLine', function() {
   it('one argument', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@Autowire(name="util")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Autowire(name="util")');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Autowire");
     expect(annotationMetadata.arguments.name).to.equal("util");
+  });
+  it('one argument splited by :', function() {
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "protected:get")');
+    assert(annotationMetadata);
+    expect(annotationMetadata.name).to.equal("Protected");
+    expect(annotationMetadata.arguments.permission).to.equal("protected:get");
+  });
+  it('one argument splited by -', function() {
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "foo-bar")');
+    assert(annotationMetadata);
+    expect(annotationMetadata.name).to.equal("Protected");
+    expect(annotationMetadata.arguments.permission).to.equal("foo-bar");
+  });
+  it('one argument splited by _', function() {
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "foo_bar")');
+    assert(annotationMetadata);
+    expect(annotationMetadata.name).to.equal("Protected");
+    expect(annotationMetadata.arguments.permission).to.equal("foo_bar");
   });
   it('one argument with spaces', function() {
     var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@Autowire(name = "util")');

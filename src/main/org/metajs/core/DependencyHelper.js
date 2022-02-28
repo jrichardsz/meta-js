@@ -67,6 +67,9 @@ DependencyHelper.getJsFiles = function(path, files, expectedExtensions, excludes
       if (absolutePath.endsWith("node_modules")) {
         return;
       }
+      if (absolutePath.endsWith("coverage")) {
+        return;
+      }
       DependencyHelper.getJsFiles(absolutePath, files, expectedExtensions, excludes);
     } else {
       var ext = pathUtil.extname(file);

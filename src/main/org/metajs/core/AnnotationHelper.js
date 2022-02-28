@@ -55,9 +55,9 @@ AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction = function(fil
         functions[functionName] = parsedAnnotations;
       }else if (AnnotationHelper.isModuleAsyncFunction(rawLine)) {
         var functionName = AnnotationHelper.getModuleFunctionNameFromRawLine(rawLine);
-        Logger.debug("is a module function : " + functionName);
+        Logger.debug("is a module async function : " + functionName);
         var rawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(fileLines, rawLineData.index, internalAnnotationsRegexString);
-        Logger.debug("raw annotations found in this module function:");
+        Logger.debug("raw annotations found in this async module function:");
         Logger.debug(rawAnnotations);
         var parsedAnnotations = [];
         rawAnnotations.forEach(function(rawAnnotation, i) {
@@ -224,7 +224,7 @@ AnnotationHelper.getModuleFunctionNameFromRawLine = function(line) {
 };
 
 AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine = function(line) {
-  var rawArguments = line.match(new RegExp('[a-zA-Z]+\\s*=\\s*\\"[a-zA-Z/_-\\d]+\\"', "g"));
+  var rawArguments = line.match(new RegExp('[a-zA-Z]+\\s*=\\s*\\"[a-zA-Z/_:-\\d]+\\"', "g"));
   var annotationArguments = {};
   var name = AnnotationHelper.getAnnotationNameFromRawAnnotation(line);
   if (typeof rawArguments === 'undefined' || rawArguments == null || rawArguments.length == 0) {
