@@ -6,7 +6,7 @@ var DependencyHelper = require('../../../../../main/org/metajs/core/DependencyHe
 var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
 
 describe('DependencyHelper: getDependecies', function() {
-  it('empty action', function() {
+  it('empty module', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -24,7 +24,7 @@ describe('DependencyHelper: getDependecies', function() {
     expect(dependencies[0].meta.arguments.route).to.equal("hello");
   });
 
-  it('action with two variables', function() {
+  it('module with two variables', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -49,7 +49,7 @@ describe('DependencyHelper: getDependecies', function() {
 
   });
 
-  it('action with one variable and two annotations', function() {
+  it('module with one variable and two annotations', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -76,7 +76,7 @@ describe('DependencyHelper: getDependecies', function() {
   });
 
 
-  it('action with one function', function() {
+  it('module with one function', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -98,6 +98,32 @@ describe('DependencyHelper: getDependecies', function() {
     expect(dependencies[0].functions.clickOnSomeHtmlElement[0].name).to.equal("ActionListener");
     expect(dependencies[0].functions.clickOnSomeHtmlElement[0].arguments.htmlId).to.equal("resetButton");
     expect(dependencies[0].functions.clickOnSomeHtmlElement[0].arguments.typeFunction).to.equal("onclick");
+
+  });
+
+  it('module with one function who has two annotations', function() {
+
+    var headAnnotations = ["Route"];
+    var internalAnnotations = ["Autowire","DomElement","Render","DefaultAction", "Put", "Protected"];
+
+    var src = path.resolve(__filename,'..')+'/test5/src';
+
+    var dependencies = DependencyHelper.getDependecies(src, [".js", ".html"], ["src/index.js", "src/index.html"],
+    headAnnotations, internalAnnotations);
+
+    assert(dependencies);
+    expect(dependencies.length).to.equal(1);
+    expect(dependencies[0].meta.name).to.equal("Route");
+    expect(dependencies[0].meta.arguments.name).to.equal("helloWorldAction");
+    expect(dependencies[0].meta.arguments.entrypoint).to.equal("true");
+    expect(dependencies[0].meta.arguments.route).to.equal("hello");
+    assert(dependencies[0].functions.updateUser)
+    expect(dependencies[0].functions.updateUser.length).to.equal(2);
+    expect(dependencies[0].functions.updateUser[0].name).to.equal("Put");
+    expect(dependencies[0].functions.updateUser[0].arguments.path).to.equal("/user");
+    expect(dependencies[0].functions.updateUser[1].name).to.equal("Protected");
+    expect(dependencies[0].functions.updateUser[1].arguments.permission).to.equal("self:update");
+
 
   });
 
