@@ -34,12 +34,29 @@ module.exports = SomeClass;
 
 ## Usage
 
+**require**
 ```
-var headAnnotations = ["Config","Route"];
-var internalAnnotations = ["Autowire","Get","Post","Put","Delete", "Configuration"];
-var dependencies = DependencyHelper.getDependecies(sourceCodeBaseLocation, [".js"], ["src/main/Index.js"],headAnnotations, internalAnnotations);
-console.log(JSON.stringify(dependencies, null,4 ));
+const NodeInternalModulesHook = require('meta-js').NodeInternalModulesHook;
+NodeInternalModulesHook._compile();// removes the @ at runtime
+const DependencyHelper = require('meta-js').DependencyHelper;
 ```
+
+**get dependencies**
+```
+var dependencies;
+var environment = process.env.NODE_ENV
+if (environment !== 'production') {
+  var headAnnotations = ["Config", "Route", "Middleware", "ServerInitializer", "Service"];
+  var internalAnnotations = ["Autowire", "Get", "Post", "Put", "Delete", "Configuration", "Protected"];
+  dependencies = DependencyHelper.getDependecies(applicationRootLocation, [".js"], ["src/main/Index.js", ".test.js"], headAnnotations, internalAnnotations);
+  console.log(JSON.stringify(dependencies, null, 4));
+  await fsPromises.writeFile('meta.json', JSON.stringify(dependencies), 'utf8');
+} else {
+  dependencies = await fsPromises.readFile('meta.json', 'utf8')
+}
+```
+
+**dependencies** has information about all module dependencies and its relations. You could use this json to instantatiate acorde to your needs.
 
 # Road map
 
