@@ -39,6 +39,15 @@ DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExc
       Logger.debug(foundAnnotations);
       if(foundAnnotations){
         headAnnotationMetadata.location = file.replace(rootPath, "");
+        if(file.endsWith(".js")){
+          var moduleName = AnnotationHelper.getExportedModuleName(contents);  
+          headAnnotationMetadata.moduleName = moduleName;
+          //set meta.arguments.name if is null
+          if(typeof headAnnotationMetadata.arguments.name === 'undefined' || 
+            headAnnotationMetadata.arguments.name == null){
+            headAnnotationMetadata.arguments.name = lowerCaseAtTheBegining(moduleName);
+          }
+        }
         foundAnnotations.meta = headAnnotationMetadata;
         dependencies.push(foundAnnotations);
       }
@@ -99,6 +108,10 @@ DependencyHelper.isExcludeFile = function(file, excludes) {
 
 function replaceAll(str, find, replace){
     return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function lowerCaseAtTheBegining(word){
+  return word.charAt(0).toLowerCase() + word.slice(1);
 }
 
 

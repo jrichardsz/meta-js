@@ -1,10 +1,11 @@
 {
   "name": "meta-js",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "meta-js framework",
   "main": "src/main/Index.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit --require mocha-suppress-logs && npm run badges",
+    "test_verbose": "nyc --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit && npm run badges",
     "badges": "badges4cov --source=nyc_json --nyc_json_file_location=./coverage/coverage-summary.json --output_folder=./coverage"
   },
   "author": "JRichardsz <jrichardsz.java@gmail.com>",

@@ -161,6 +161,11 @@ AnnotationHelper.createRegexFromAnnotations = function(annotationsArray) {
 
 
 AnnotationHelper.getHeadAnnotationMetadata = function(fileContent, headAnnotationsStringRegex) {
+  // TODO: improve regex to match only when @anotation is close to the module name and 
+  // also at the top of js file
+  // @Foo  
+  // function BarModule() {
+  //  
   var regexMatches = fileContent.match(new RegExp(headAnnotationsStringRegex, "g"));
   Logger.debug("Detected head annotations: " + regexMatches);
   if (regexMatches && regexMatches.length > 0) {
@@ -258,6 +263,32 @@ AnnotationHelper.getAnnotationNameFromRawAnnotation = function(rawAnnotation) {
   }else{
     return rawAnnotation.substring(rawAnnotation.indexOf("@") + 1, rawAnnotation.indexOf("("));
   }
+
+};
+
+AnnotationHelper.getExportedModuleName = function(fileContent) {
+  if(typeof fileContent === 'undefined' || fileContent == ""){
+      throw new Error("error while module exported name was being extracted because js file content is null or empty");
+  }
+
+  var regexMatches = fileContent.match(new RegExp('\\s*module.exports\\s*=\\s*[\\w_]+;\\s*', "g"));
+
+  if(typeof regexMatches === 'undefined' || regexMatches == null || regexMatches.length == 0){
+      let allLines = fileContent.trim().split("\n")
+      let lastLines = allLines.slice(-5)
+      throw new Error("commonjs module should end with : module.exports = Foo; \nContent:\n"+allLines);
+  }
+
+  if(regexMatches.length > 1){
+      throw new Error("commonjs module should end with only one export : module.exports = Foo;");
+  }
+
+  return regexMatches[0]
+    .replace(/(^[ \t]*\n)/gm, "")
+    .replace("module.exports", "")
+    .replace("=", "")
+    .replace(";", "")
+    .replace(/\s/g,'');
 
 };
 
