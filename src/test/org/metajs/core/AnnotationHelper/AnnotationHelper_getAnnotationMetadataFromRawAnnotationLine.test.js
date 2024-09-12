@@ -5,44 +5,44 @@ var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHe
 
 describe('AnnotationHelper: getAnnotationMetadataFromRawAnnotationLine', function() {
   it('one argument', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Autowire(name="util")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('[Autowire(name="util")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Autowire");
     expect(annotationMetadata.arguments.name).to.equal("util");
   });
   it('one argument splited by :', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "protected:get")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('[Protected(permission = "protected:get")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Protected");
     expect(annotationMetadata.arguments.permission).to.equal("protected:get");
   });
   it('one argument splited by -', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "foo-bar")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('[Protected(permission = "foo-bar")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Protected");
     expect(annotationMetadata.arguments.permission).to.equal("foo-bar");
   });
   it('one argument splited by _', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@Protected(permission = "foo_bar")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('[Protected(permission = "foo_bar")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Protected");
     expect(annotationMetadata.arguments.permission).to.equal("foo_bar");
   });
   it('one argument with spaces', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@Autowire(name = "util")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  [Autowire(name = "util")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Autowire");
     expect(annotationMetadata.arguments.name).to.equal("util");
   });
   it('two arguments', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@Render(name="util",location="src")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  [Render(name="util",location="src")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("Render");
     expect(annotationMetadata.arguments.name).to.equal("util");
     expect(annotationMetadata.arguments.location).to.equal("src");
   });
   it('several arguments with allowed special chars', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@ActionListener(name="util_",location="src/dist",script="ja_v-a")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  [ActionListener(name="util_",location="src/dist",script="ja_v-a")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("ActionListener");
     expect(annotationMetadata.arguments.name).to.equal("util_");
@@ -51,7 +51,7 @@ describe('AnnotationHelper: getAnnotationMetadataFromRawAnnotationLine', functio
   });
 
   it('two arguments', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  //@DomElement( name="util" , location="src" )');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('  [DomElement( name="util" , location="src" )]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("DomElement");
     expect(annotationMetadata.arguments.name).to.equal("util");
@@ -59,7 +59,7 @@ describe('AnnotationHelper: getAnnotationMetadataFromRawAnnotationLine', functio
   });
 
   it('one argument with numbers in value', function() {
-    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('@ActionListener(tagId="clickMeButton2", type="onclick")');
+    var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine('[ActionListener(tagId="clickMeButton2", type="onclick")]');
     assert(annotationMetadata);
     expect(annotationMetadata.name).to.equal("ActionListener");
     expect(annotationMetadata.arguments.tagId).to.equal("clickMeButton2");

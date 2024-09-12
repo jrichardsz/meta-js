@@ -1,10 +1,10 @@
-@Route(name="helloWorldAction", entrypoint="true", route="hello"  )
+[Route(name="helloWorldAction", entrypoint="true", route="hello"  )]
 function UserRoute() {
 
-  @Autowire(name = "userService")
+  [Autowire(name = "userService")]
   this.userService;
 
-  @Post(path = "/user")
+  [Post(path = "/user")]
   this.createUser = async (req, res) => {
     try {
       await this.userService.createUser(req.body);
@@ -21,8 +21,8 @@ function UserRoute() {
     }
   }
 
-  @Protected(permission="self:update")
-  @Put(path = "/user")
+  [Protected(permission="self:update")]
+  [Put(path = "/user")]
   this.updateUser = async (req, res) => {
     try {
       console.log(req.app.locals);

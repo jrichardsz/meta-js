@@ -5,21 +5,21 @@ var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHe
 
 var file1 =
 `
-//@DefaultAction(name="acmeAction")
+[DefaultAction(name="acmeAction")]
 function AcmeAction() {
   var $ = this;
 
-  //@Autowire
+  [Autowire]
   this.liveExample;
 
   function dummy(){};`;
 
 var file2 =
 `
-//@Dummy(name="name")
+[Dummy(name="name")]
 function AcmeAction() {
 
-  //@Autowire
+  [Autowire]
   this.liveExample;
 
   function dummy(){};`;
@@ -30,7 +30,7 @@ describe('AnnotationHelper: getHeadAnnotationMetadata', function() {
   var headAnnotations = ["DefaultAction"]
   var stringRegex = AnnotationHelper.createRegexFromAnnotations(headAnnotations);
 
-  it('must have @DefaultAction annotation', function() {
+  it('must have [DefaultAction] annotation', function() {
     var haveHeadAnnotation = AnnotationHelper.getHeadAnnotationMetadata(file1, stringRegex);
     assert(haveHeadAnnotation);
     expect(haveHeadAnnotation.name).to.equal("DefaultAction");

@@ -6,7 +6,7 @@ var file1 =
 `function ClickCounterAction() {
   var $ = this;
 
-  //@Autowire
+  [Autowire]
   this.liveExample;
 
   function dummy(){};`;
@@ -15,8 +15,8 @@ var file2 =
 `function ClickCounterAction() {
   var $ = this;
 
-  //@Autowire(name="name")
-  //@Render(name="name")
+  [Autowire(name="name")]
+  [Render(name="name")]
   this.liveExample;
 
   function dummy(){};`;
@@ -25,9 +25,9 @@ var file3 =
 `function ClickCounterAction() {
   var $ = this;
 
-  //@Autowire(name="name")
-  //@Render(name="name")
-  //@ActionListener(name="name")
+  [Autowire(name="name")]
+  [Render(name="name")]
+  [ActionListener(name="name")]
   this.template;
 
   function dummy(){};`;

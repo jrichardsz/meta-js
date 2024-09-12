@@ -8,7 +8,7 @@ var file1 =
 @RouteHandler(entrypoint = "true")
 function EntrypointAction() {
 
-  @Autowire(name="example")
+  [Autowire(name="example")]
   this.foo;
 
 }
@@ -18,7 +18,7 @@ module.exports = EntrypointAction;
 
 `;
 
-describe.only('AnnotationHelper: getExportedModuleName', function() {
+describe('AnnotationHelper: getExportedModuleName', function() {
   it('should get the module exported name', function() {
     var exportedModuleName = AnnotationHelper.getExportedModuleName(file1);    
     expect(exportedModuleName).to.equal("EntrypointAction");

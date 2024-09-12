@@ -6,15 +6,15 @@ var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHe
 var file1 =
 `function ClickCounterAction() {
 
-  //@Autowire(name="example")
+  [Autowire(name="example")]
   this.liveExample;
 `;
 
 var file2 =
 `function ClickCounterAction() {
 
-  //@Autowire(name="homePageTemplate")
-  //@Render(required="true")
+  [Autowire(name="homePageTemplate")]
+  [Render(required="true")]
   this.homePage;
 
 `;
@@ -22,10 +22,10 @@ var file2 =
 var file3 =
 `function ClickCounterAction() {
 
-  //@Render(required="true")
+  [Render(required="true")]
   this.homePage;
 
-  //@Autowire(name="anotherAction")
+  [Autowire(name="anotherAction")]
   this.anotherAction;
 
 `;
@@ -33,7 +33,7 @@ var file3 =
 var file4 =
 `function ClickCounterAction() {
 
-  //@ActionListener(tagId="clickButton")
+  [ActionListener(tagId="clickButton")]
   this.displayQuote = (aaa) => {
     return x * y
   };
@@ -42,8 +42,8 @@ var file4 =
 var file5 =
 `function ClickCounterAction() {
 
-  //@Autowire(name="displayQuote")
-  //@ActionListener(tagId="clickButton")
+  [Autowire(name="displayQuote")]
+  [ActionListener(tagId="clickButton")]
   this.displayQuote = (x, y) => {
     return x * y
   };
@@ -55,7 +55,8 @@ describe('AnnotationHelper: getDependecyAnnotationsGroupByVariableOrFunction', f
     var internalAnnotationsRegexString = AnnotationHelper.createRegexFromAnnotations(internalAnnotations);
     var lines = file1.split("\n");
     var foundAnnotations = AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction(lines, internalAnnotationsRegexString);
-    assert(foundAnnotations);console.log(JSON.stringify(foundAnnotations));
+    assert(foundAnnotations);
+    console.log(JSON.stringify(foundAnnotations));
     assert(foundAnnotations.variables.liveExample);
     expect(foundAnnotations.variables.liveExample.length).to.equal(1);
     expect(foundAnnotations.variables.liveExample[0].name).to.equal("Autowire");

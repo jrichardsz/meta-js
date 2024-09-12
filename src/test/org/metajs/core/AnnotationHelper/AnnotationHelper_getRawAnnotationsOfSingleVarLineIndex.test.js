@@ -7,7 +7,7 @@ var file1 =
 `function ClickCounterAction() {
   var _this = this;
 
-  //@Autowire(name="name")
+  [Autowire(name="name")]
   this.liveExample;
 
   function dummy(){};`;
@@ -16,8 +16,8 @@ var file2 =
 `function ClickCounterAction() {
   var _self = this;
 
-  //@Autowire(name="name")
-  //@Render(name="name")
+  [Autowire(name="name")]
+  [Render(name="name")]
   this.liveExample;
 
   function dummy(){};`;
@@ -26,9 +26,9 @@ var file3 =
 `function ClickCounterAction() {
   var $ = this;
 
-  //@Autowire(name="name")
-  //@Render(name="name")
-  //@ActionListener(name="name")
+  [Autowire(name="name")]
+  [Render(name="name")]
+  [ActionListener(name="name")]
   this.template;
 
   function dummy(){};`;
@@ -37,7 +37,7 @@ var file4 =
 `function ClickCounterAction() {
   var _this = this;
 
-  //@Autowire
+  [Autowire]
   this.liveExample;
 
   function dummy(){};`;
@@ -50,7 +50,7 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     var foundRawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(lines, 4, internalAnnotationsRegexString);
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(1);
-    expect(foundRawAnnotations[0]).to.equal('  //@Autowire(name="name")');
+    expect(foundRawAnnotations[0]).to.equal('  [Autowire(name="name")]');
   });
   it('var has two annotations', function() {
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"]
@@ -59,8 +59,8 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     var foundRawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(lines, 5, internalAnnotationsRegexString);
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(2);
-    expect(foundRawAnnotations[0]).to.equal('  //@Render(name="name")');
-    expect(foundRawAnnotations[1]).to.equal('  //@Autowire(name="name")');
+    expect(foundRawAnnotations[0]).to.equal('  [Render(name="name")]');
+    expect(foundRawAnnotations[1]).to.equal('  [Autowire(name="name")]');
   });
   it('var has three annotations', function() {
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"]
@@ -69,9 +69,9 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     var foundRawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(lines, 6, internalAnnotationsRegexString);
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(3);
-    expect(foundRawAnnotations[0]).to.equal('  //@ActionListener(name="name")');
-    expect(foundRawAnnotations[1]).to.equal('  //@Render(name="name")');
-    expect(foundRawAnnotations[2]).to.equal('  //@Autowire(name="name")');
+    expect(foundRawAnnotations[0]).to.equal('  [ActionListener(name="name")]');
+    expect(foundRawAnnotations[1]).to.equal('  [Render(name="name")]');
+    expect(foundRawAnnotations[2]).to.equal('  [Autowire(name="name")]');
   });
   it('var has one empty annotation', function() {
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"]
@@ -80,7 +80,7 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     var foundRawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(lines, 4, internalAnnotationsRegexString);
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(1);
-    expect(foundRawAnnotations[0]).to.equal('  //@Autowire');
+    expect(foundRawAnnotations[0]).to.equal('  [Autowire]');
   });
 
   let output;

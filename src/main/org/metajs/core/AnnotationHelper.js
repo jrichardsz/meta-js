@@ -151,7 +151,7 @@ output: @Page\\(.+\\)|@Action\\(.+\\)
 AnnotationHelper.createRegexFromAnnotations = function(annotationsArray) {
   var regexString = "";
   for (let i = 0; i < annotationsArray.length; i++) {
-    regexString += "@" + annotationsArray[i] + "\\(.+\\)" + "|@" + annotationsArray[i]
+    regexString += "\\[" + annotationsArray[i] + "\\(.+\\)" + "\\]|\\[" + annotationsArray[i]+"\\]"
     if (i < annotationsArray.length - 1) {
       regexString += "|"
     }
@@ -252,16 +252,28 @@ AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine = function(line) {
 };
 
 AnnotationHelper.getAnnotationNameFromRawAnnotation = function(rawAnnotation) {
+  Logger.debug("rawAnnotation: "+ rawAnnotation)
   //detect if it is an empty annotation or not
-  var rawAnnotationWithArguments = rawAnnotation.match(new RegExp('\\(.+\\)', "g"));
-  if(typeof rawAnnotationWithArguments === 'undefined' || rawAnnotationWithArguments == null){
-    var rawAnnotationNameMatch = rawAnnotation.match(new RegExp('@[a-zA-Z]+', "g"));
+  var cleanAnnotation = rawAnnotation.trim();
+  var rawAnnotationWithArguments = cleanAnnotation.match(new RegExp('\\[[a-zA-Z]{3,}\\(\\s*.+\\s*\\)\\]'));
+  //var rawAnnotationWithArguments = cleanAnnotation.match(new RegExp('\\[[a-zA-Z]{3,}\\(((^|[,])[a-zA-Z]+\\s*=\\s*\\"[a-zA-Z/_:-\\d]+\\")+\\)\\]'));
+  if(typeof rawAnnotationWithArguments !== 'undefined' && rawAnnotationWithArguments != null){
+    Logger.debug("rawAnnotationWithArguments")
+    var removedArgsString = cleanAnnotation.replace(/\([^\)]+\)/,"");
+    Logger.debug(removedArgsString)
+    var rawAnnotationNameMatch = removedArgsString.match(new RegExp('\\[[a-zA-Z]{3,}\\]', "g"));
     if(typeof rawAnnotationNameMatch === 'undefined' || rawAnnotationNameMatch == null){
       throw new Error("expected raw annotation is wrong. Is not possible get its name:"+rawAnnotation);
     }
-    return rawAnnotationNameMatch[0].replace("@","");
+    return removedArgsString.substring(1, removedArgsString.length-1);
   }else{
-    return rawAnnotation.substring(rawAnnotation.indexOf("@") + 1, rawAnnotation.indexOf("("));
+    var rawAnnotationWithoutArguments = cleanAnnotation.match(new RegExp('\\[\\s*[a-zA-Z]{3,}\\s*\\]', "g"));
+    Logger.debug(rawAnnotationWithoutArguments)
+    if(typeof rawAnnotationWithoutArguments === 'undefined' || rawAnnotationWithoutArguments == null){
+      throw new Error("raw annotation is wrong. Is not possible get its name:"+rawAnnotation);
+    }
+    
+    return cleanAnnotation.substring(1, cleanAnnotation.length-1).trim();
   }
 
 };
