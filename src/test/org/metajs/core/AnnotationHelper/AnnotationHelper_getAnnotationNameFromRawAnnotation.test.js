@@ -1,7 +1,5 @@
-var chai = require('chai');
-var expect = chai.expect;
-var assert = chai.assert;
-var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
+import { expect, assert } from 'chai';
+import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHelper.js';
 
 describe('AnnotationHelper: getAnnotationNameFromRawAnnotation', function() {
   it('one argument', function() {

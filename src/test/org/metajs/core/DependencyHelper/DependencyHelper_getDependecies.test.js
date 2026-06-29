@@ -1,9 +1,11 @@
-var chai = require('chai');
-var expect = chai.expect;
-var assert = chai.assert;
-var path = require("path");
-var DependencyHelper = require('../../../../../main/org/metajs/core/DependencyHelper.js');
-var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
+import { expect, assert } from 'chai';
+import path from "path";
+import DependencyHelper from '../../../../../main/org/metajs/core/DependencyHelper.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe('DependencyHelper: getDependecies', function() {
   it('empty module', function() {

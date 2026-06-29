@@ -1,6 +1,4 @@
-function Logger(){
-
-}
+export default function Logger() {}
 
 Logger.debug = function(message){
   let logLevel;
@@ -22,4 +20,4 @@ Logger.info = function(message){
   }
 }
 
-module.exports = Logger;
+

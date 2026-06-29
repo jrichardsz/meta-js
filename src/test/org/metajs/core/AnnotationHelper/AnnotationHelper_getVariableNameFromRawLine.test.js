@@ -1,6 +1,5 @@
-var chai = require('chai');
-var expect = chai.expect;
-var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
+import { expect, assert } from 'chai';
+import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHelper.js';
 
 describe('AnnotationHelper: getVariableNameFromRawLine', function() {
   it('get simple variable name', function() {

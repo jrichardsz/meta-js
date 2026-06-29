@@ -1,6 +1,5 @@
-var chai = require('chai');
-var expect = chai.expect;
-var AnnotationHelper = require('../../../../../main/org/metajs/core/AnnotationHelper.js');
+import { expect, assert } from 'chai';
+import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHelper.js';
 
 describe('AnnotationHelper: isClassicVariable', function() {
   it('is a simple variable at the left', function() {

@@ -1,11 +1,9 @@
-const fs = require('fs');
-const pathUtil = require('path');
-var AnnotationHelper = require('./AnnotationHelper.js');
-var Logger = require('./Logger.js')
+import fs from 'fs';
+import pathUtil from 'path';
+import AnnotationHelper from './AnnotationHelper.js';
+import Logger from './Logger.js';
 
-function DependencyHelper() {
-
-}
+export default function DependencyHelper() {}
 
 DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExclusions,
                                            headAnnotations, internalAnnotations) {
@@ -113,6 +111,3 @@ function replaceAll(str, find, replace){
 function lowerCaseAtTheBegining(word){
   return word.charAt(0).toLowerCase() + word.slice(1);
 }
-
-
-module.exports = DependencyHelper;

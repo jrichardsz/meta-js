@@ -1,10 +1,6 @@
-const fs = require('fs');
-const pathUtil = require('path');
-var Logger = require('./Logger.js')
+import Logger from './Logger.js';
 
-function AnnotationHelper() {
-
-}
+export default function AnnotationHelper() {}
 
 AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction = function(fileLines, internalAnnotationsRegexString) {
   var variables = {};
@@ -303,7 +299,3 @@ AnnotationHelper.getExportedModuleName = function(fileContent) {
     .replace(/\s/g,'');
 
 };
-
-
-
-module.exports = AnnotationHelper;
