@@ -15,10 +15,15 @@
     "core-js": "3.49.0"
   },
   "devDependencies": {
-    "badges4cov": "github:jrichardsz/badges4cov#1.0.2-snapshot",
+    "badges4cov": "github:jrichardsz/badges4cov",
     "c8": "^11.0.0",
     "chai": "6.2.2",
     "mocha": "11.7.6",
     "mocha-suppress-logs": "^0.6.0"
+  },
+  "overrides": {
+    "serialize-javascript": "7.0.7",
+    "diff": "8.0.3",
+    "underscore": "^1.13.7"
   }
 }
