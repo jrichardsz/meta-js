@@ -1,25 +1,24 @@
 {
   "name": "meta-js",
   "type": "module",
-  "version": "1.0.7-pre-alpha",
+  "version": "1.0.9",
   "description": "meta-js framework",
   "main": "src/main/Index.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit --require mocha-suppress-logs && npm run badges",
-    "test:verbose": "nyc --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit && npm run badges",
+    "test": "c8 --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit --require mocha-suppress-logs",
+    "test:verbose": "c8 --reporter=html --reporter=json-summary mocha  'src/test/**/*.test.js' --exit",
     "badges": "badges4cov --source=nyc_json --nyc_json_file_location=./coverage/coverage-summary.json --output_folder=./coverage"
   },
   "author": "JRichardsz <jrichardsz.java@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "core-js": "3.49.0",
-    "meta-js": "github:jrichardsz/meta-js#1.0.7-pre-alpha"
+    "core-js": "3.49.0"
   },
   "devDependencies": {
-    "badges4cov": "git+https://github.com/jrichardsz/badges4cov.git",
+    "badges4cov": "github:jrichardsz/badges4cov#1.0.2-snapshot",
+    "c8": "^11.0.0",
     "chai": "6.2.2",
     "mocha": "11.7.6",
-    "mocha-suppress-logs": "^0.6.0",
-    "nyc": "^18.0.0"
+    "mocha-suppress-logs": "^0.6.0"
   }
 }

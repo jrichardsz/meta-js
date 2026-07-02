@@ -3,7 +3,7 @@ import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHel
 
 var file1 =
 `
-@RouteHandler(entrypoint = "true")
+[RouteHandler(entrypoint = "true")]
 function EntrypointAction() {
 
   [Autowire(name="example")]
@@ -12,31 +12,27 @@ function EntrypointAction() {
 }
 
 module.exports = EntrypointAction;
-
-
 `;
 
-describe('AnnotationHelper: getExportedModuleName', function() {
+var file2 =
+`
+[RouteHandler(entrypoint = "true")]
+export class EntrypointAction   {
+
+  [Autowire(name="example")]
+  foo;
+
+}
+`;
+
+describe('AnnotationHelper: Get class/module name', function() {
   it('should get the module exported name', function() {
     var exportedModuleName = AnnotationHelper.getExportedModuleName(file1);    
     expect(exportedModuleName).to.equal("EntrypointAction");
-  });
-
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
+  });  
+  
+  it('should get the class exported name', function() {
+    var exportedModuleName = AnnotationHelper.getExportedClassName(file2);    
+    expect(exportedModuleName).to.equal("EntrypointAction");
   });
 });

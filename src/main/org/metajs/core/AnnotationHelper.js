@@ -18,9 +18,9 @@ AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction = function(fil
       var rawLineData = AnnotationHelper.getVarOrFunctionLineOfAnnotationInThisIndexLine(fileLines, i, internalAnnotationsRegexString);
       var rawLine = rawLineData.line;
       Logger.debug("var or function raw line which contains an annotation is:" + rawLine);
-      if (AnnotationHelper.isModuleVariable(rawLine)) {
+      if (AnnotationHelper.isES6ClassVariable(rawLine)) {
         var variableName = AnnotationHelper.getVariableNameFromRawLine(rawLine);
-        Logger.debug("is a module variable : " + variableName);
+        Logger.debug("is a es6 variable : " + variableName);
         //the previous algorithms did not give me the annotations names
         //so at this point I know that this is variable which contains annotations
         //I need to extract the annotations
@@ -34,24 +34,9 @@ AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction = function(fil
           parsedAnnotations.push(annotationMetadata);
         });
         variables[variableName] = parsedAnnotations;
-      } else if (AnnotationHelper.isModuleFunction(rawLine)) {
-        var functionName = AnnotationHelper.getModuleFunctionNameFromRawLine(rawLine);
-        Logger.debug("is a module function : " + functionName);
-        var rawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(fileLines, rawLineData.index, internalAnnotationsRegexString);
-        Logger.debug("raw annotations found in this module function:");
-        Logger.debug(rawAnnotations);
-        var parsedAnnotations = [];
-        rawAnnotations.forEach(function(rawAnnotation, i) {
-          var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine(rawAnnotation);
-          Logger.debug("parsed annotations:");
-          Logger.debug(annotationMetadata);
-          parsedAnnotations.push(annotationMetadata);
-        });
-
-        functions[functionName] = parsedAnnotations;
-      }else if (AnnotationHelper.isModuleAsyncFunction(rawLine)) {
-        var functionName = AnnotationHelper.getModuleFunctionNameFromRawLine(rawLine);
-        Logger.debug("is a module async function : " + functionName);
+      } else if (AnnotationHelper.isES6AsyncFunction(rawLine)) {
+        var functionName = AnnotationHelper.getEs6AsyncMethodNameFromRawLine(rawLine);
+        Logger.debug("is es6 async method : " + functionName);
         var rawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(fileLines, rawLineData.index, internalAnnotationsRegexString);
         Logger.debug("raw annotations found in this async module function:");
         Logger.debug(rawAnnotations);
@@ -59,6 +44,21 @@ AnnotationHelper.getDependecyAnnotationsGroupByVariableOrFunction = function(fil
         rawAnnotations.forEach(function(rawAnnotation, i) {
           Logger.debug("analizing:" + rawAnnotation);
           var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine(rawAnnotation);
+          Logger.debug(annotationMetadata);
+          parsedAnnotations.push(annotationMetadata);
+        });
+
+        functions[functionName] = parsedAnnotations;
+      } else if (AnnotationHelper.isES6Function(rawLine)) {
+        var functionName = AnnotationHelper.getEs6MethodNameFromRawLine(rawLine);
+        Logger.debug("is a es6 method : " + functionName);
+        var rawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(fileLines, rawLineData.index, internalAnnotationsRegexString);
+        Logger.debug("raw annotations found in this module function:");
+        Logger.debug(rawAnnotations);
+        var parsedAnnotations = [];
+        rawAnnotations.forEach(function(rawAnnotation, i) {
+          var annotationMetadata = AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine(rawAnnotation);
+          Logger.debug("parsed annotations:");
           Logger.debug(annotationMetadata);
           parsedAnnotations.push(annotationMetadata);
         });
@@ -84,11 +84,11 @@ AnnotationHelper.getVarOrFunctionLineOfAnnotationInThisIndexLine = function(line
     throw new Error('File end reached without finding line');
   }
 
-  Logger.debug("regex to determine if this line is an annotation:" + internalAnnotationsRegexString);
-  Logger.debug("line contaning the element is the index +1: " + (line + 1));
+  Logger.debug("regex to determine if this line is an internal annotation:" + internalAnnotationsRegexString);
+  Logger.debug("next line related to the annotation is the index : " + (line + 1));
   Logger.debug("line to analize is:" + lines[line + 1]);
   var annotationsMatchs = lines[line + 1].match(new RegExp(internalAnnotationsRegexString, "g"));
-  Logger.debug("line contains or is an annotation?:" + annotationsMatchs);
+  Logger.debug("line is an extra internal annotation: " + annotationsMatchs);
   //if this line is an annotation, execute again with next line
   //because an element could have several annotations one after the other
   if (annotationsMatchs && annotationsMatchs.length > 0) {
@@ -187,6 +187,15 @@ AnnotationHelper.isModuleVariable = function(line) {
   }
 };
 
+AnnotationHelper.isES6ClassVariable = function(line) {
+  var regexMatches = line.match(new RegExp('\\s*[a-zA-Z][\\w_]+\\s*\\;', "g"));
+  if (regexMatches && regexMatches.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 AnnotationHelper.isModuleFunction = function(line) {
   var regexMatches = line.match(new RegExp('\\s*this\\.[a-zA-Z][\\w_]+\\s*[=]\\s*\\((\\s*[a-zA-Z][\\w_]*\\s*,?\s*)*\\)\\s*[=][>]\\s*{\\s*', "g"));
   if (regexMatches && regexMatches.length > 0) {
@@ -205,13 +214,33 @@ AnnotationHelper.isModuleAsyncFunction = function(line) {
   }
 };
 
+AnnotationHelper.isES6Function = function(line) {
+  var regexMatches = line.match(new RegExp('\\s*[a-zA-Z][a-zA-Z0-9_]*\\s*\\([^)]*\\)\\s*\\{', 'g'));
+  console.log(regexMatches)
+  if (regexMatches && regexMatches.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+AnnotationHelper.isES6AsyncFunction = function(line) {
+  var regexMatches = line.match(new RegExp('\\s*async\\s+[a-zA-Z][a-zA-Z0-9_]*\\s*\\([^)]*\\)\\s*\\{', 'g'));
+  console.log(regexMatches)
+  if (regexMatches && regexMatches.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 AnnotationHelper.isEmptyLine = function(line) {
   return (!line || /^\s*$/.test(line));
 };
 
 AnnotationHelper.getVariableNameFromRawLine = function(line) {
-  var regexMatches = line.match(new RegExp('\\s*this\\.[a-zA-Z][\\w_]+', "g"));
-  return regexMatches[0].replace("this.", "").replace(/\s/g,'');
+  var regexMatches = line.match(new RegExp('\\s*[a-zA-Z][\\w_]+\\s*;', "g"));
+  return regexMatches[0].replace(";", "").replace(/\s/g,'');
 };
 
 AnnotationHelper.getFunctionNameFromRawLine = function(line) {
@@ -222,6 +251,14 @@ AnnotationHelper.getFunctionNameFromRawLine = function(line) {
 AnnotationHelper.getModuleFunctionNameFromRawLine = function(line) {
   var regexMatches = line.match(new RegExp('\\s*this\\.[a-zA-Z][\\w_]+', "g"));
   return regexMatches[0].replace("this.", "").replace(/\s/g,'');
+};
+
+AnnotationHelper.getEs6MethodNameFromRawLine = function(line) {
+  return line.replace(new RegExp('\\s*\\([^)]*\\)\\s*\\{', 'g'),"").replace(/\s+/,"");
+};
+
+AnnotationHelper.getEs6AsyncMethodNameFromRawLine = function(line) {
+  return line.replace(new RegExp('\\s*\\([^)]*\\)\\s*\\{', 'g'),"").replace(/^\s*async\s*/,"").replace(/\s+/,"");
 };
 
 AnnotationHelper.getAnnotationMetadataFromRawAnnotationLine = function(line) {
@@ -298,4 +335,26 @@ AnnotationHelper.getExportedModuleName = function(fileContent) {
     .replace(";", "")
     .replace(/\s/g,'');
 
+};
+
+
+AnnotationHelper.getExportedClassName = function(fileContent) {
+  if(typeof fileContent === 'undefined' || fileContent == ""){
+      throw new Error("error while module exported name was being extracted because js file content is null or empty");
+  }
+
+  var regexMatches = fileContent.match(new RegExp('\\s*export\\s+class\\s+[\\w_]+\\s*', "g"));
+
+  if(typeof regexMatches === 'undefined' || regexMatches == null || regexMatches.length == 0){
+      let allLines = fileContent.trim().split("\n")
+      throw new Error("ES6 class should be like export class Foo { \nContent:\n"+allLines);
+  }
+
+  if(regexMatches.length > 1){
+      throw new Error("ES6 class should be like export class Foo {");
+  }
+
+  return regexMatches[0].trim()
+    .replace(/export\s+class\s+/gm, "")
+    .replace(/\s/g,'');
 };

@@ -22,21 +22,4 @@ describe('AnnotationHelper: isModuleVariable', function() {
     var isVariableWithThis = AnnotationHelper.isModuleVariable("this.field = 5 ;");
     expect(isVariableWithThis).to.equal(false);
   });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
-  });
 });

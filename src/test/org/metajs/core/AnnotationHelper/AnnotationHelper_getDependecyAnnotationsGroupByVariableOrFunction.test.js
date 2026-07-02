@@ -5,7 +5,7 @@ var file1 =
 `function ClickCounterAction() {
 
   [Autowire(name="example")]
-  this.liveExample;
+  liveExample;
 `;
 
 var file2 =
@@ -13,7 +13,7 @@ var file2 =
 
   [Autowire(name="homePageTemplate")]
   [Render(required="true")]
-  this.homePage;
+  homePage;
 
 `;
 
@@ -21,10 +21,10 @@ var file3 =
 `function ClickCounterAction() {
 
   [Render(required="true")]
-  this.homePage;
+  homePage;
 
   [Autowire(name="anotherAction")]
-  this.anotherAction;
+  anotherAction;
 
 `;
 
@@ -32,7 +32,7 @@ var file4 =
 `function ClickCounterAction() {
 
   [ActionListener(tagId="clickButton")]
-  this.displayQuote = (aaa) => {
+  displayQuote (aaa) {
     return x * y
   };
 `;
@@ -42,7 +42,7 @@ var file5 =
 
   [Autowire(name="displayQuote")]
   [ActionListener(tagId="clickButton")]
-  this.displayQuote = (x, y) => {
+  displayQuote (x, y) {
     return x * y
   };
 `;
@@ -113,22 +113,5 @@ describe('AnnotationHelper: getDependecyAnnotationsGroupByVariableOrFunction', f
     expect(foundAnnotations.functions.displayQuote[0].arguments.tagId).to.equal("clickButton");
     expect(foundAnnotations.functions.displayQuote[1].name).to.equal("Autowire");
     expect(foundAnnotations.functions.displayQuote[1].arguments.name).to.equal("displayQuote");
-  });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
   });
 });

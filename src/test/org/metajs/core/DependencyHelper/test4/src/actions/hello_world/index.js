@@ -1,13 +1,11 @@
 var LinksStartJsDomUtil = require('linkstartjs-nerve-utils').LinksStartJsDomUtil
 
 [DefaultAction(name="helloWorldAction", entrypoint="true", route="hello"  )]
-function HelloWorldAction() {
+export class HelloWorldAction {
 
   [ActionListener(htmlId="resetButton", typeFunction="onclick")]
-  this.clickOnSomeHtmlElement = (e) => {
+  clickOnSomeHtmlElement (e) {
     return x * y
-  };
+  }
 
 }
-
-module.exports = ClickCounterAction;

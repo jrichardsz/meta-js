@@ -4,7 +4,7 @@ import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHel
 var file1 =
 `
 [DefaultAction(name="acmeAction")]
-function AcmeAction() {
+export class AcmeAction() {
   var $ = this;
 
   [Autowire]
@@ -15,7 +15,7 @@ function AcmeAction() {
 var file2 =
 `
 [Dummy(name="name")]
-function AcmeAction() {
+export class AcmeAction() {
 
   [Autowire]
   this.liveExample;
@@ -38,23 +38,5 @@ describe('AnnotationHelper: getHeadAnnotationMetadata', function() {
     var haveHeadAnnotation = AnnotationHelper.getHeadAnnotationMetadata(file2, stringRegex);
     assert(!haveHeadAnnotation);
   });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
-  });
-
 
 });

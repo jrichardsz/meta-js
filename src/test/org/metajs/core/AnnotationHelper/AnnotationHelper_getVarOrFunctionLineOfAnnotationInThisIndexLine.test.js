@@ -2,32 +2,32 @@ import { expect, assert } from 'chai';
 import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHelper.js';
 
 var file1 =
-`function ClickCounterAction() {
+`export default ClickCounterAction() {
   var $ = this;
 
   [Autowire]
-  this.liveExample;
+  liveExample;
 
   function dummy(){};`;
 
 var file2 =
-`function ClickCounterAction() {
+`export default ClickCounterAction() {
   var $ = this;
 
   [Autowire(name="name")]
   [Render(name="name")]
-  this.liveExample;
+  liveExample;
 
   function dummy(){};`;
 
 var file3 =
-`function ClickCounterAction() {
+`export default ClickCounterAction() {
   var $ = this;
 
   [Autowire(name="name")]
   [Render(name="name")]
   [ActionListener(name="name")]
-  this.template;
+  template;
 
   function dummy(){};`;
 
@@ -37,7 +37,7 @@ describe('AnnotationHelper: getVarOrFunctionLineOfAnnotationInThisIndexLine', fu
     var internalAnnotationsRegexString = AnnotationHelper.createRegexFromAnnotations(internalAnnotations);
     var lines = file1.split("\n");
     var data = AnnotationHelper.getVarOrFunctionLineOfAnnotationInThisIndexLine(lines, 3, internalAnnotationsRegexString);
-    expect(data.line).to.equal("  this.liveExample;");
+    expect(data.line).to.equal("  liveExample;");
     expect(data.index).to.equal(4);
   });
   it('#2 if var has two annotations should get the real var', function() {
@@ -45,7 +45,7 @@ describe('AnnotationHelper: getVarOrFunctionLineOfAnnotationInThisIndexLine', fu
     var internalAnnotationsRegexString = AnnotationHelper.createRegexFromAnnotations(internalAnnotations);
     var lines = file2.split("\n");
     var data = AnnotationHelper.getVarOrFunctionLineOfAnnotationInThisIndexLine(lines, 3, internalAnnotationsRegexString);
-    expect(data.line).to.equal("  this.liveExample;");
+    expect(data.line).to.equal("  liveExample;");
     expect(data.index).to.equal(5);
   });
 
@@ -54,24 +54,7 @@ describe('AnnotationHelper: getVarOrFunctionLineOfAnnotationInThisIndexLine', fu
     var internalAnnotationsRegexString = AnnotationHelper.createRegexFromAnnotations(internalAnnotations);
     var lines = file3.split("\n");
     var data = AnnotationHelper.getVarOrFunctionLineOfAnnotationInThisIndexLine(lines, 3, internalAnnotationsRegexString);
-    expect(data.line).to.equal("  this.template;");
+    expect(data.line).to.equal("  template;");
     expect(data.index).to.equal(6);
-  });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
   });
 });

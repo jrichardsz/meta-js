@@ -18,21 +18,4 @@ describe('AnnotationHelper: isClassicVariable', function() {
     var isClassicVariable = AnnotationHelper.isClassicVariable("   var _duke  ;");
     expect(isClassicVariable).to.equal(false);
   });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
-  });
 });

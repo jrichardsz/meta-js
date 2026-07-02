@@ -2,79 +2,131 @@
 
 ![](./coverage/lines.svg) ![](./coverage/statements.svg) ![](./coverage/branches.svg) ![](./coverage/functions.svg)
 
-meta features for nodejs inspired on java and spring boot framework
+A lightweight framework that brings annotation-based programming to JavaScript (frontend and backend), similar to the capabilities found in Java and C#.
 
 ## Features
 
-- @annotations like java does
+* Define your own class-level, property, and method annotations.
+* Scan nested directories for annotated files.
+* Automatically generate dependency and metadata information.
 
 ## How it works?
 
-- Create a nodejs javascript class with annotations:
+### 1. Define your ES6 class with annotations
 
-```
-@Foo
-function SomeClass(){
+Create a JavaScript ES6 class and decorate your class, properties, or methods with your desired annotations.
 
-  @Baz
-  this.someVariable;
+* **Codebase:** `/home/acme-system`
+* **File:** `/src/controllers/UserController.js`
 
-  @Bar(path="/countries")
-  this.someMethod = (req, res) => {
-    res.json(this.companies);
+```js
+[Controller(id="userController", entrypoint="true" )]
+export class UserController {
+
+  [Autowire(id = "userRepository")]
+  userRepository;
+
+  [Protected(permission="self:update")]
+  [Put(path = "/user")]
+  async updateUser (req, res) {
+    await this.userRepository.updateUser({...});
+    return res.json({code: 200, message: "success"})
   }
+
+
+  [WebAssembly(file = "home_form.wasm")]
+  async loadHomeForm (obj) {
+    obj.instance.exports.run();
+  }  
+
 }
 
-module.exports = SomeClass;
-```
-- Use meta to get the dependencies at:
-  - class level
-  - method level
-  - variables
-
-## Usage
-
-**require**
-```
-const NodeInternalModulesHook = require('meta-js').NodeInternalModulesHook;
-NodeInternalModulesHook._compile();// removes the @ at runtime
-const DependencyHelper = require('meta-js').DependencyHelper;
 ```
 
-**get dependencies**
+### 2. Configure and extract dependencies
+
+Use the `DependencyHelper` to scan your project and extract metadata based on your defined annotations.
+
+```js
+var classLevelAnnotations = ["Controller"];
+var internalAnnotations = ["Autowire", "Put", "WebAssembly", "Protected"];
+
+dependencies = DependencyHelper.getDependecies(
+  "/home/acme-system", 
+  [".js"], 
+  ["src/main/Index.js", ".test.js"], 
+  classLevelAnnotations, internalAnnotations);
+
 ```
-var dependencies;
-var environment = process.env.NODE_ENV
-if (environment !== 'production') {
-  var headAnnotations = ["Config", "Route", "Middleware", "ServerInitializer", "Service"];
-  var internalAnnotations = ["Autowire", "Get", "Post", "Put", "Delete", "Configuration", "Protected"];
-  dependencies = DependencyHelper.getDependecies(applicationRootLocation, [".js"], ["src/main/Index.js", ".test.js"], headAnnotations, internalAnnotations);
-  console.log(JSON.stringify(dependencies, null, 4));
-  await fsPromises.writeFile('meta.json', JSON.stringify(dependencies), 'utf8');
-} else {
-  dependencies = await fsPromises.readFile('meta.json', 'utf8')
-}
+
+### 3. Access dependency metadata
+
+The resulting `dependencies` object contains a detailed map of your application's structure and metadata, which you can use for dependency injection, routing, or automated documentation.
+
+```json
+[
+    {
+        "variables": {
+            "userRepository": [
+                {
+                    "name": "Autowire",
+                    "arguments": {
+                        "id": "userRepository"
+                    }
+                }
+            ]
+        },
+        "functions": {
+            "updateUser": [
+                {
+                    "name": "Put",
+                    "arguments": {
+                        "path": "/user"
+                    }
+                },
+                {
+                    "name": "Protected",
+                    "arguments": {
+                        "permission": "self:update"
+                    }
+                }
+            ],
+            "loadHomeForm": [
+                {
+                    "name": "WebAssembly",
+                    "arguments": {}
+                }
+            ]
+        },
+        "meta": {
+            "name": "Controller",
+            "arguments": {
+                "id": "userController",
+                "entrypoint": "true",
+                "name": "userController"
+            },
+            "location": "/controllers/UserController.js",
+            "className": "UserController"
+        }
+    }
+]
+
 ```
 
-**dependencies** has information about all module dependencies and its relations. You could use this json to instantatiate acorde to your needs.
+## Road map
 
-# Road map
+* Improve the documentation/comments within `src/main/org/metajs/hook/NodeInternalModulesHook.js`.
+* Refactor the codebase to align more closely with standard Java Annotation framework patterns.
 
-- Improve the comments of annotations of src/main/org/metajs/hook/NodeInternalModulesHook.js
-- Refactor to be exactly as Java Annotations framework
-
-# Contributors
+## Contributors
 
 <table>
   <tbody>
     <td>
       <img src="https://avatars0.githubusercontent.com/u/3322836?s=460&v=4" width="100px;"/>
       <br />
-      <label><a href="http://jrichardsz.github.io/">Richard Leon</a></label>
+      <label><a href="http://jrichardsz.github.io/">JRichardsz</a></label>
       <br />
     </td>    
   </tbody>
 </table>
-
-# Since
-- 2018

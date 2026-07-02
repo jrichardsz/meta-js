@@ -2,41 +2,41 @@ import { expect, assert } from 'chai';
 import AnnotationHelper  from '../../../../../main/org/metajs/core/AnnotationHelper.js';
 
 var file1 =
-`function ClickCounterAction() {
+`export class ClickCounterAction() {
   var _this = this;
 
   [Autowire(name="name")]
-  this.liveExample;
+  catalog;
 
   function dummy(){};`;
 
 var file2 =
-`function ClickCounterAction() {
+`export class ClickCounterAction() {
   var _self = this;
 
   [Autowire(name="name")]
   [Render(name="name")]
-  this.liveExample;
+  liveExample;
 
   function dummy(){};`;
 
 var file3 =
-`function ClickCounterAction() {
+`export class ClickCounterAction() {
   var $ = this;
 
   [Autowire(name="name")]
   [Render(name="name")]
   [ActionListener(name="name")]
-  this.template;
+  template;
 
   function dummy(){};`;
 
 var file4 =
-`function ClickCounterAction() {
+`export class ClickCounterAction() {
   var _this = this;
 
   [Autowire]
-  this.liveExample;
+  liveExample;
 
   function dummy(){};`;
 
@@ -46,6 +46,7 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     var internalAnnotationsRegexString = AnnotationHelper.createRegexFromAnnotations(internalAnnotations);
     var lines = file1.split("\n");
     var foundRawAnnotations = AnnotationHelper.getRawAnnotationsOfSingleVarLineIndex(lines, 4, internalAnnotationsRegexString);
+    console.log("foundRawAnnotations", JSON.stringify(foundRawAnnotations, null, 4))
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(1);
     expect(foundRawAnnotations[0]).to.equal('  [Autowire(name="name")]');
@@ -79,22 +80,5 @@ describe('AnnotationHelper: getRawAnnotationsOfSingleVarLineIndex', function() {
     assert(foundRawAnnotations);
     expect(foundRawAnnotations.length).to.equal(1);
     expect(foundRawAnnotations[0]).to.equal('  [Autowire]');
-  });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
   });
 });

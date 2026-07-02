@@ -5,10 +5,9 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 describe('DependencyHelper: getDependecies', function() {
-  it('empty module', function() {
+  it('empty class', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -26,7 +25,7 @@ describe('DependencyHelper: getDependecies', function() {
     expect(dependencies[0].meta.arguments.route).to.equal("hello");
   });
 
-  it('module with two variables', function() {
+  it('class with two variables', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -35,6 +34,7 @@ describe('DependencyHelper: getDependecies', function() {
 
     var dependencies = DependencyHelper.getDependecies(src, [".js", ".html"], ["src/index.js", "src/index.html"],
     headAnnotations, internalAnnotations);
+    console.log(JSON.stringify(dependencies, null, 4))
     assert(dependencies);
     expect(dependencies.length).to.equal(1);
     expect(dependencies[0].meta.name).to.equal("DefaultAction");
@@ -51,7 +51,7 @@ describe('DependencyHelper: getDependecies', function() {
 
   });
 
-  it('module with one variable and two annotations', function() {
+  it('class with one variable and two annotations', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -78,7 +78,7 @@ describe('DependencyHelper: getDependecies', function() {
   });
 
 
-  it('module with one function', function() {
+  it('class with one function', function() {
 
     var headAnnotations = ["DefaultAction"];
     var internalAnnotations = ["Autowire","DomElement","Render","ActionListener"];
@@ -87,6 +87,8 @@ describe('DependencyHelper: getDependecies', function() {
 
     var dependencies = DependencyHelper.getDependecies(src, [".js", ".html"], ["src/index.js", "src/index.html"],
     headAnnotations, internalAnnotations);
+
+    console.log(JSON.stringify(dependencies, null, 4));
 
     assert(dependencies);
     expect(dependencies.length).to.equal(1);
@@ -105,20 +107,23 @@ describe('DependencyHelper: getDependecies', function() {
 
   it('module with one function who has two annotations', function() {
 
-    var headAnnotations = ["Route"];
-    var internalAnnotations = ["Autowire","DomElement","Render","DefaultAction", "Put", "Protected"];
+    var classLevelAnnotations = ["Controller"];
+    var internalAnnotations = ["Autowire", "Put", "WebAssembly", "Protected"];
 
     var src = path.resolve(__filename,'..')+'/test5/src';
 
     var dependencies = DependencyHelper.getDependecies(src, [".js", ".html"], ["src/index.js", "src/index.html"],
-    headAnnotations, internalAnnotations);
+    classLevelAnnotations, internalAnnotations);
+    console.log(JSON.stringify(dependencies, null, 4));
 
     assert(dependencies);
     expect(dependencies.length).to.equal(1);
-    expect(dependencies[0].meta.name).to.equal("Route");
-    expect(dependencies[0].meta.arguments.name).to.equal("helloWorldAction");
+    expect(dependencies[0].meta.name).to.equal("Controller");
+    expect(dependencies[0].meta.arguments.name).to.equal("userController");
     expect(dependencies[0].meta.arguments.entrypoint).to.equal("true");
-    expect(dependencies[0].meta.arguments.route).to.equal("hello");
+    expect(dependencies[0].meta.location).to.equal("/controllers/UserController.js");
+    expect(dependencies[0].meta.className).to.equal("UserController");
+    
     assert(dependencies[0].functions.updateUser)
     expect(dependencies[0].functions.updateUser.length).to.equal(2);
     expect(dependencies[0].functions.updateUser[0].name).to.equal("Put");
@@ -126,23 +131,10 @@ describe('DependencyHelper: getDependecies', function() {
     expect(dependencies[0].functions.updateUser[1].name).to.equal("Protected");
     expect(dependencies[0].functions.updateUser[1].arguments.permission).to.equal("self:update");
 
+    assert(dependencies[0].variables);
+    expect(dependencies[0].variables.userRepository.length).to.equal(1);
+    expect(dependencies[0].variables.userRepository[0].name).to.equal("Autowire");
+    expect(dependencies[0].variables.userRepository[0].arguments.id).to.equal("userRepository");
 
-  });
-
-  let output;
-  const originalLogFunction = console.log;
-  beforeEach(function() {
-    output = '';
-    console.log = (msg) => {
-      output += msg + '\n';
-    };
-  });
-
-  afterEach(function() {
-    console.log = originalLogFunction; // undo dummy log function
-    if (this.currentTest.state === 'failed') {
-      console.log("Log:");
-      console.log(output);
-    }
   });
 });

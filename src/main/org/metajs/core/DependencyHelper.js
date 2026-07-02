@@ -38,12 +38,12 @@ DependencyHelper.getDependecies = function(rootPath, expectedExtensions, fileExc
       if(foundAnnotations){
         headAnnotationMetadata.location = file.replace(rootPath, "");
         if(file.endsWith(".js")){
-          var moduleName = AnnotationHelper.getExportedModuleName(contents);  
-          headAnnotationMetadata.moduleName = moduleName;
+          var className = AnnotationHelper.getExportedClassName(contents);  
+          headAnnotationMetadata.className = className;
           //set meta.arguments.name if is null
           if(typeof headAnnotationMetadata.arguments.name === 'undefined' || 
             headAnnotationMetadata.arguments.name == null){
-            headAnnotationMetadata.arguments.name = lowerCaseAtTheBegining(moduleName);
+            headAnnotationMetadata.arguments.name = lowerCaseAtTheBegining(className);
           }
         }
         foundAnnotations.meta = headAnnotationMetadata;
